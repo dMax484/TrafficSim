@@ -1,5 +1,7 @@
 package edu.sru.dsm1015.TrafficSim.grid;
 
+import java.awt.*;
+
 public class Grid {
     private int width;
     private int height;
@@ -23,9 +25,15 @@ public class Grid {
         // Initialize each cell with a default value
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                cells[i][j] = new Cell();
+                Coordinate tempCoordinate = new Coordinate(i, j);
+                cells[i][j] = new Cell(tempCoordinate);
+                
             }
         }
+        Coordinate testCoordinate = new Coordinate(3, 5);
+        cells[3][3] = new Cell(testCoordinate, Color.RED);
+        Coordinate test2Coordinate = new Coordinate(5, 5);
+        cells[5][5] = new Cell(test2Coordinate, Color.lightGray);
     }
 
     public Cell getCell(int x, int y) {

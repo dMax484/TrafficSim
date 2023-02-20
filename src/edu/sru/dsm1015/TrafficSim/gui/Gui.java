@@ -5,10 +5,12 @@ import java.awt.*;
 
 import edu.sru.dsm1015.TrafficSim.grid.Cell;
 import edu.sru.dsm1015.TrafficSim.grid.Grid;
+import edu.sru.dsm1015.TrafficSim.grid.RoadCell;
 
 public class Gui extends JFrame {
 
     private Grid grid;
+    private JPanel panel;
 
     public Gui(Grid grid) {
         this.grid = grid;
@@ -18,7 +20,7 @@ public class Gui extends JFrame {
         setPreferredSize(new Dimension(500, 500));
 
         // Create a panel to hold the grid display
-        JPanel panel = new JPanel();
+        this.panel = new JPanel();
         panel.setLayout(new GridLayout(grid.getWidth(), grid.getHeight(), 0, 0));
         add(panel, BorderLayout.CENTER);
 
@@ -27,14 +29,31 @@ public class Gui extends JFrame {
             for (int j = 0; j < grid.getHeight(); j++) {
                 Cell cell = grid.getCell(i, j);
                 JButton button = new JButton();
-                //button.setBackground(cell.getColor());
+                button.setBackground(cell.getColor());
                 panel.add(button);
             }
         }
 
         // Pack the window and display it
         pack();
-        setVisible(true);
+        setVisible(true);     
+    }
+
+    public void upgradeCellToRoad(Cell cell){
+
+        if (cell instanceof RoadCell){
+            return;
+        }
+        // Create a new RoadCell with the same coordinates as the current cell
+        RoadCell roadCell = new RoadCell(cell.getCoordinates());
+
+        // Replace the current cell with the RoadCell in the Grid
+        grid.setCell(cell.getCoordinates().getX(), cell.getCoordinates().getY(), roadCell);
+
+        // Update the button background color to reflect the new cell type
+        JButton button = (JButton) panel.getComponent(cell.getCoordinates().getX() * grid.getHeight() + cell.getCoordinates().getY());
+        button.setBackground(roadCell.getColor());
+
     }
 
     public static void main(String args[]){
@@ -44,6 +63,7 @@ public class Gui extends JFrame {
 
         // Create the GUI and display the grid
         Gui gui = new Gui(grid);
+        gui.upgradeCellToRoad(grid.getCell(4, 3));
      }
 
      

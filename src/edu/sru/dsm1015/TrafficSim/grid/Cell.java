@@ -9,8 +9,18 @@ public class Cell {
     private double trafficDensity;
     private Color color;
 
-    public Cell(){
+    public Cell(Coordinate coordinates){
+        this.cellSideLength = 5;
+        this.coordinates = coordinates;
+        this.trafficDensity = 0;
+        this.color = new Color(255, 255, 255); // white
+    }
 
+    public Cell(Coordinate coordinates, Color color){
+        this.cellSideLength = 5;
+        this.coordinates = coordinates;
+        this.trafficDensity = 0;
+        this.color = color; // passed color
     }
 
     // Getters and setters
