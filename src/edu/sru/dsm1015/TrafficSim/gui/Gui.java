@@ -6,6 +6,7 @@ import java.awt.*;
 import edu.sru.dsm1015.TrafficSim.grid.Cell;
 import edu.sru.dsm1015.TrafficSim.grid.Grid;
 import edu.sru.dsm1015.TrafficSim.grid.RoadCell;
+import edu.sru.dsm1015.TrafficSim.grid.ZoneCell;
 
 public class Gui extends JFrame {
 
@@ -30,7 +31,7 @@ public class Gui extends JFrame {
         add(panel, BorderLayout.CENTER);
 
         // initialize current selection
-        this.currentSelection = "None";
+        this.currentSelection = "none";
 
         // add menu
         menu = new JMenu("Add");
@@ -38,17 +39,26 @@ public class Gui extends JFrame {
         JMenuBar menuBar = new JMenuBar();
         roadMenuItem = new JMenuItem("Road");
         roadMenuItem.addActionListener(e -> {
-            this.currentSelection = "Road";
+            this.currentSelection = "road";
         });
         zoneItem1 = new JMenuItem("Commercial");
+        zoneItem1.addActionListener(e -> {
+            this.currentSelection = "commercial";
+        });
         zoneItem2 = new JMenuItem("Residential");
+        zoneItem2.addActionListener(e -> {
+            this.currentSelection = "residential";
+        });
         zoneItem3 = new JMenuItem("Offices");
+        zoneItem3.addActionListener(e -> {
+            this.currentSelection = "offices";
+        });
         zoneSubMenu.add(zoneItem1);
         zoneSubMenu.add(zoneItem2);
         zoneSubMenu.add(zoneItem3);
         clearItem = new JMenuItem("Remove");
         clearItem.addActionListener(e -> {
-            this.currentSelection = "None";
+            this.currentSelection = "none";
         });
         menu.add(roadMenuItem);
         menu.add(zoneSubMenu);
@@ -91,6 +101,19 @@ public class Gui extends JFrame {
         button.setBackground(roadCell.getColor());
     }
 
+    public void upgradeCellToZone(Cell cell, String zoneType){
+
+        // Create a new RoadCell with the same coordinates as the current cell
+        ZoneCell zoneCell = new ZoneCell(cell.getCoordinates(), zoneType);
+ 
+        // Replace the current cell with the RoadCell in the Grid
+        grid.setCell(cell.getCoordinates().getX(), cell.getCoordinates().getY(), zoneCell);
+
+        // Update the button background color to reflect the new cell type
+        JButton button = (JButton) panel.getComponent(cell.getCoordinates().getX() * grid.getHeight() + cell.getCoordinates().getY());
+        button.setBackground(zoneCell.getColor());
+    }
+
     public void clearCell(Cell cell){
 
         // Create a new RoadCell with the same coordinates as the current cell
@@ -106,13 +129,25 @@ public class Gui extends JFrame {
 
     public void changeCell(Cell cell){
         switch (this.currentSelection){
-            case "None":
+            case "none":
                 System.out.println("clearing cell");
                 clearCell(cell);
                 break;
-            case "Road":
+            case "road":
                 System.out.println("adding road cell");
                 upgradeCellToRoad(cell);
+                break;
+            case "residential":
+                System.out.println("adding residential zone");
+                upgradeCellToZone(cell, "residential");
+                break;
+            case "commercial":
+                System.out.println("adding commercial zone");
+                upgradeCellToZone(cell, "commercial");
+                break;
+            case "offices":
+                System.out.println("adding offices zone");
+                upgradeCellToZone(cell, "offices");
                 break;
         }
     }
