@@ -130,23 +130,18 @@ public class Gui extends JFrame {
     public void changeCell(Cell cell){
         switch (this.currentSelection){
             case "none":
-                System.out.println("clearing cell");
                 clearCell(cell);
                 break;
             case "road":
-                System.out.println("adding road cell");
                 upgradeCellToRoad(cell);
                 break;
             case "residential":
-                System.out.println("adding residential zone");
                 upgradeCellToZone(cell, "residential");
                 break;
             case "commercial":
-                System.out.println("adding commercial zone");
                 upgradeCellToZone(cell, "commercial");
                 break;
             case "offices":
-                System.out.println("adding offices zone");
                 upgradeCellToZone(cell, "offices");
                 break;
         }
