@@ -1,6 +1,6 @@
 package edu.sru.dsm1015.TrafficSim.grid;
 
-import java.awt.*;
+//import java.awt.*;
 
 public class Grid {
     private int width;
@@ -30,10 +30,6 @@ public class Grid {
                 
             }
         }
-        Coordinate testCoordinate = new Coordinate(3, 5);
-        cells[3][3] = new Cell(testCoordinate, Color.RED);
-        Coordinate test2Coordinate = new Coordinate(5, 5);
-        cells[5][5] = new Cell(test2Coordinate, Color.lightGray);
     }
 
     public Cell getCell(int x, int y) {
